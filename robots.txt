@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin.html
+Disallow: /success.html
+Disallow: /cancel.html
+Allow: /
+
+Sitemap: https://borntoridepleasantontx.org/sitemap.xml

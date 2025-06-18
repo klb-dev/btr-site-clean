@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register for Event</title>
+  <link rel="stylesheet" href="./style/styles.min.css">
+  <link rel="stylesheet" href="./style/registration.min.css">
+</head>
+<body>
+  <main class="container">
+    <h1>Event Registration</h1>
+    <form id="registrationForm">
+      <div id="childrenContainer">
+        <fieldset class="child-entry">
+          <legend>Child's Information</legend>
+          <label>
+            Child's Full Name:
+            <input type="text" name="child_name" required />
+          </label>
+          <label>
+            Age:
+            <input type="number" name="age" min="1" max="18" required />
+          </label>
+          <fieldset>
+          <label>
+            Gender:
+            <select name="gender" required>
+              <option value="">Select</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+          <label>
+            Skate Level:
+            <select name="skate_level" required>
+              <option value="">Select</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+          </label>
+          <label>
+            School:
+            <input type="text" name="school" required />
+          </label>
+        </fieldset>
+      </div>
+      <button type="button" id="addChildBtn" class="btn">Add Another Child</button>
+      <h3>Parent Info</h3>
+      <label for="">
+        Parent's Full Name:
+        <input type="text" name="parent_name" required />
+      </label>
+      <label>
+        Email:
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Phone Number:
+        <input type="tel" name="phone" required />
+      </label>
+      <input type="hidden" name="event_date" id="event_date" />
+      <button type="submit" class="btn">Submit Registration</button>
+    </form>
+    <p id="formMessage"></p>
+  </main>
+  <div id="toast" class="toast hidden"></div>
+  <script src="./javascript/registration.js"></script>
+  <script src="./javascript/register-submit.js"></script>
+</body>
+</html>

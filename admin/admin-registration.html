@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Registration</title>
+  <!-- fontawesome -->
+  <script src="https://kit.fontawesome.com/7a721610e8.js" crossorigin="anonymous"></script>
+  <!-- favicon -->
+   <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <!-- stylesheet -->
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- non authenticated user will not gain access -->
+  <script type="module">
+    import { auth, onAuthStateChanged } from "../javascript/firebase.js";
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "/admin/admin-login.html";
+      }
+    });
+  </script>
+  <section id="admin-registration">
+    <button id="btn-return"><i class="fa-solid fa-rotate-left"></i></button>
+
+    <h2>Register Participants at Event</h2>
+    <form id="batchRegistrationForm">
+      <table id="registrationTable">
+        <thead>
+          <tr>
+            <th>Child Name</th>
+            <th>Age</th>
+            <th>M/F</th>
+            <th>Skate Level</th>
+            <th>School</th>
+            <th>Parent Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input name="child_name" required></td>
+            <td><input type="number" name="age" min="1" max="18" required></td>
+            <td>
+              <select name="gender" required>
+                <option value="">Select</option>
+                <option value="M">M</option>
+                <option value="F">F</option>
+              </select>
+            </td>
+            <td>
+              <select name="skate_level" required>
+                <option value="">Select</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </td>
+            <td><input name="school" required></td>
+            <td><input name="parent_name" required></td>
+            <td><input type="email" name="email" required></td>
+            <td><input name="phone" required></td>
+            <td><button type="button" class="removeRow">X</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" id="addRow">+ Add Row</button>
+      <button type="submit" class="btn">Submit All</button>
+      <p id="formSubmitMessage"></p>
+    </form>
+  </section>
+  <script type="module" src="admin-registration.js" defer></script>
+</body>
+</html>

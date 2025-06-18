@@ -1,0 +1,32 @@
+<!-- public/admin-login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login - BTR</title>
+  <!-- favicon -->
+   <link rel="shortcut icon" href"/images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="admin.css" />
+  <script src="https://kit.fontawesome.com/7a721610e8.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="login-container">
+    <h2>Admin Login</h2>
+    <input type="email" id="admin-email" placeholder="Email" />
+    <input type="password" id="admin-password" placeholder="Password" />
+    <button id="login-btn">Log In</button>
+
+    <p class="error" id="login-error"></p>
+
+    <div style="margin-top: 1rem; text-align: center;">
+      <button id="reset-password-btn" style="margin-bottom: 0.5rem;">Reset Password</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/javascript/config.js"></script>
+  <script type="module" src="/javascript/firebase.js"></script>
+  <script type="module" src="admin-login.js"></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+body {
+  font-family: sans-serif;
+  background-color: #f7f7f7;
+  padding: 2rem;
+}
+
+body.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+#btn-return {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  margin-bottom: 2em;
+}
+
+.fa-rotate-left {
+  color: #27ae60;
+  font-size: 1.5rem;
+}
+
+#login-container {
+  max-width: 300px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-radius: 6px;
+}
+
+#login-container input {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+  
+#login-container button {
+  width: 100%;
+  background: #2ecc71;
+  border: none;
+  color: white;
+  padding: 0.6rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#login-container button:hover {
+  background: #27ae60;
+}
+
+.error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+#admin-toggle-buttons {
+  display: none;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+  
+#admin-toggle-buttons button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+  
+#admin-toggle-buttons button:hover {
+  background-color: #2980b9;
+}
+  
+#message-container,
+#donation-container {
+  display: none;
+  max-width: 700px;
+  margin: 0 auto;
+}
+  
+.message-card {
+  background: #fff;
+  border-left: 4px solid #2ecc71;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+  
+.message-card .timestamp {
+  font-size: 0.8rem;
+  color: gray;
+}
+  
+.filter-export-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+  
+.filter-export-bar input {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  flex: 1;
+  margin-right: 1rem;
+}
+  
+.filter-export-bar button {
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+  
+.filter-export-bar button:hover {
+  background-color: #27ae60;
+}
+  
+  /* 🎬 Modal Slide-In/Out Animation */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 1000;
+}
+  
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 400px;
+  padding: 1.5rem;
+  animation: slideInRight 0.4s ease forwards;
+  transform: translateX(100%);
+  box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+  border-radius: 10px 0 0 10px;
+  margin-right: 0;
+}
+  
+.modal-overlay.closing .modal-content {
+  animation: slideOutLeft 0.4s ease forwards;
+}
+  
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+  
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+  
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+  
+.modal-content button {
+    background: #2ecc71;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+  
+.modal-content button:hover {
+    background: #27ae60;
+}
+
+.countdown-text {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.toast.success {
+  background: #2ecc71;
+}
+
+.toast.error {
+  background: #e74c3c;
+}
+
+#registration-container {
+  margin-top: 2rem;
+  overflow-x: auto;
+}
+
+#registration-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+#registration-container th,
+#registration-container td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#registration-container th {
+  background-color: #f8f8f8;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+#registration-container tr:hover {
+  background-color: #f1f1f1;
+}
+
+#registration-container td {
+  font-size: 0.95rem;
+}
+
+/* filter button for view registration */
+#filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+#filter-bar label {
+  font-weight: bold;
+  color: #333;
+}
+
+#filterDate {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  min-width: 180px;
+}
+
+#filterButton, #clearFilter {
+  padding: 0.4rem 0.8rem;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#filterButton:hover,
+#clearFilter:hover {
+  background-color: #222;
+}
+
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 95%;
+    max-width: 95%;
+    border-radius: 0;
+    height: auto;
+  }
+}

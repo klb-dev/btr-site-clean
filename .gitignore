@@ -1,0 +1,20 @@
+# OS System files
+.DS_Store
+Thumbs.db
+
+# IDE/editor folders
+.vscode
+.idea
+
+# build output
+dist/
+build/
+
+# Temp files
+*.log
+*.tmp 
+*.bak
+
+# others
+.qodo
+node_modules/
