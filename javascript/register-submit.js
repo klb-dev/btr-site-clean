@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Send to backend
     try {
-      const response = await fetch("http://localhost:3000/registration", {
+      const response = await fetch("https://borntoridepleasantontx.org/registration", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

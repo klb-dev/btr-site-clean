@@ -6,7 +6,7 @@ import { animateOnScroll } from './javascript/scrollAnimations.js';
 import './javascript/contact/contactForm.js';
 import './javascript/donations/donationForm.js';
 import './javascript/events/eventsLoader.js';
-import './javascript/newsletter/newsletter-v2.js';
+import './javascript/newsletter/newsletter.js';
 import './javascript/map.js';
 import './javascript/modals.js';
 

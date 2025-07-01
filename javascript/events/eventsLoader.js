@@ -1,5 +1,3 @@
-// eventsLoader.js
-
 /**
  * Load and render upcoming events from events.json
  * Creates DOM elements for each event and appends them to the container
