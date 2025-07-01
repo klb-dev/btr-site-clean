@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registrationForm");
-  console.log("Form found", form)
   const message = document.getElementById("formMessage");
 
     if (!form) {
