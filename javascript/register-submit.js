@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Send to backend
     try {
-      const response = await fetch("https://borntoridepleasantontx.org/registration", {
+      const response = await fetch("https://btr-backend-7f5r.onrender.com/registration", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
