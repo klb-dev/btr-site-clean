@@ -14,7 +14,7 @@ document.getElementById("subscribeForm").addEventListener("submit", async (e) =>
   }
 
   try {
-    const response = await fetch("/api/newsletter/subscribe", {
+    const response = await fetch("https://btr-backend-7f5r.onrender.com/api/newsletter/subscribe", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
