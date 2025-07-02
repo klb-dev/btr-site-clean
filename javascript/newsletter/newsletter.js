@@ -22,6 +22,21 @@ document.getElementById("subscribeForm").addEventListener("submit", async (e) =>
       body: JSON.stringify({ email }),
     });
 
+     // Check if the response is OK first
+    if (!response.ok) {
+      console.error(`HTTP Error: ${response.status} ${response.statusText}`);
+      showToast("Server error. Please try again later.", "error");
+      return;
+    }
+
+    // Check if response is JSON
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      console.error("Server returned non-JSON response:", await response.text());
+      showToast("Server error. Please try again later.", "error");
+      return;
+    }
+
     const data = await response.json();
 
     if (data.success) {
