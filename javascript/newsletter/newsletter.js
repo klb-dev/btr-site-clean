@@ -1,5 +1,4 @@
 // newsletter.js
-import { db, collection, query, where, getDocs, addDoc } from '../firebase/firebase.js';
 import { showToast } from '../contact/contactForm.js';
 
 document.getElementById("subscribeForm").addEventListener("submit", async (e) => {
