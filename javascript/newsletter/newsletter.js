@@ -15,30 +15,25 @@ document.getElementById("subscribeForm").addEventListener("submit", async (e) =>
   }
 
   try {
-    const newsletterRef = collection(db, "newsletter");
-    const q = query(newsletterRef, where("email", "==", email));
-    const querySnapshot = await getDocs(q);
-
-    if (!querySnapshot.empty) {
-      showToast("Thanks! You’re already on the list.", "success");
-      emailInput.value = "";
-      return;
-    }
-
-    const unsubscribeToken = crypto.randomUUID
-      ? crypto.randomUUID()
-      : Math.random().toString(36).substring(2) + Date.now().toString(36);
-
-    await addDoc(newsletterRef, {
-      email: email,
-      subscribedAt: new Date(),
-      unsubscribeToken,
+    const response = await fetch("/api/newsletter/subscribe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
     });
 
-    showToast("You have been subscribed!");
-    emailInput.value = "";
+    const data = await response.json();
+
+    if (data.success) {
+      showToast(data.message, "success");
+      emailInput.value = "";
+    } else {
+      showToast(data.message || "Subscription failed. Try again later.", "error");
+    }
+
   } catch (err) {
     showToast("Subscription failed. Try again later.", "error");
-    console.error(err);
+    console.error("Newsletter subscription error:", err);
   }
 });
