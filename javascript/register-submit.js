@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <option value="">Select</option>
           <option value="M">Male</option>
           <option value="F">Female</option>
-          <option value="Other">Other</option>
         </select>
       </label>
       <label>

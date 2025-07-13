@@ -37,77 +37,66 @@ function hideToast() {
 }
 
 async function injectRegisterButton() {
+  let upcoming;
+
   try {
     const events = await fetch("/events.json").then(res => res.json());
-    const monthMap = {
-      January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
-      July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
-    };
-
-    events.forEach(e => {
-      e.event_date = new Date(new Date().getFullYear(), monthMap[e.month], parseInt(e.date));
-    });
-
-    const upcoming = events.find(e => e.event_date >= new Date());
-
-    if (!upcoming) {
-      showToast("No upcoming event found. Please try again later.", false);
-      return;
-    }
-    // Update hidden input if on registration form page
-    const eventDateInput = document.getElementById("event_date");
-    if (eventDateInput) {
-      eventDateInput.value = upcoming.event_date.toISOString().slice(0, 10);
-    }
-  } catch (err) {
-    showToast("Failed to determine event date.", false);
-    console.error("Event date fetch error:", err);
-    return;
-  }
-
-
-  try {
-    const response = await fetch("/events.json");
-    const events = await response.json();
-
-    const monthMap = {
-      January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
-      July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
-    };
+    const monthMap = { /* ... */ };
 
     events.forEach(e => {
       e.event_date = new Date(new Date().getFullYear(), monthMap[e.month], parseInt(e.date));
     });
 
     events.sort((a, b) => a.event_date - b.event_date);
-    const upcoming = events.find(e => e.event_date >= new Date());
 
-    if (!upcoming) return;
+    upcoming = events.find(e => e.event_date >= new Date());
+    if (!upcoming) {
+      showToast("No upcoming event found. Please try again later.", false);
+      return;
+    }
 
+    // Update hidden input if on registration page
+    const eventDateInput = document.getElementById("event_date");
+    if (eventDateInput) {
+      eventDateInput.value = upcoming.event_date.toISOString().slice(0, 10);
+    }
+
+  } catch (err) {
+    showToast("Failed to determine event date.", false);
+    console.error("Event date fetch error:", err);
+    return;
+  }
+
+  try {
+    // NOW `upcoming` is defined and safe to use
     const today = new Date();
-    const diffDays = Math.floor((upcoming.event_date - today) / (1000 * 60 * 60 * 24));
-    const pastCutoff = Math.floor((today - upcoming.event_date) / (1000 * 60 * 60 * 24));
+    today.setHours(0, 0, 0, 0);
+
+    const eventEndDate = new Date(upcoming.event_date);
+    eventEndDate.setDate(eventEndDate.getDate() + 1);
+    eventEndDate.setHours(0, 0, 0, 0);
+
+    const isPastEvent = today >= eventEndDate;
+    if (isPastEvent) { console.log("Event has passed."); return; }
+
+    const diffDays = Math.ceil((upcoming.event_date - today) / (1000 * 60 * 60 * 24));
 
     const registerBtn = document.createElement("button");
     registerBtn.className = "btn btn-primary";
     registerBtn.id = "registerNowBtn";
     registerBtn.textContent = "Register Now";
 
-    if (diffDays > 5 || pastCutoff > 1) {
+    if (diffDays > 5) {
       registerBtn.title = "Registration opens 5 days before the event.";
       registerBtn.classList.add("disabled-btn");
       registerBtn.addEventListener("click", (e) => {
         e.preventDefault();
         showToast("Registration opens 5 days before the event.");
       });
-        registerBtn.addEventListener("click", (e) => {
-          e.preventDefault();
-          showToast("Registration opens 5 days before the event.");
-        });
-        registerBtn.addEventListener("mouseenter", () => {
-          showToast("Registration opens 5 days before the event.");
-        });
-        registerBtn.addEventListener("mouseleave", hideToast);
+      registerBtn.addEventListener("mouseenter", () => {
+        showToast("Registration opens 5 days before the event.");
+      });
+      registerBtn.addEventListener("mouseleave", hideToast);
     } else {
       registerBtn.addEventListener("click", () => {
         window.location.href = "/registration-form.html";
@@ -125,5 +114,6 @@ async function injectRegisterButton() {
     console.error("Failed to inject Register Now button:", err);
   }
 }
+
 
 window.addEventListener("DOMContentLoaded", injectRegisterButton);
