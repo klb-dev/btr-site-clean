@@ -98,6 +98,11 @@ async function injectRegisterButton() {
       return;
     }
 
+      if (window.location.pathname.includes("registration-form")) {
+        console.log("On registration form page — do not inject Register Now button.");
+        return;
+      }
+
     const diffDays = Math.ceil((upcoming.event_date - today) / (1000 * 60 * 60 * 24));
     console.log("diffDays:", diffDays);
 
@@ -122,6 +127,26 @@ async function injectRegisterButton() {
         window.location.href = "/registration-form.html";
       });
     }
+
+    const registerContainer = document.createElement("div");
+    registerContainer.className = "register-container";
+    registerContainer.appendChild(registerBtn);
+
+    // ✅ Fallback: use #events OR fallback to <main> OR <body>
+    let eventsSection = document.getElementById("events");
+
+    if (!eventsSection) {
+      console.warn("#events container not found. Using <main> as fallback.");
+      eventsSection = document.querySelector("main");
+    }
+    if (!eventsSection) {
+      console.warn("<main> not found. Using <body> as last resort.");
+      eventsSection = document.body;
+    }
+
+    console.log("Appending Register Now button to:", eventsSection);
+    eventsSection.appendChild(registerContainer);
+
   } catch (err) {
     console.error("Failed to inject Register Now button:", err);
   }
