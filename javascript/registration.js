@@ -55,7 +55,6 @@ async function injectRegisterButton() {
       return;
     }
 
-    // Update hidden input if on registration page
     const eventDateInput = document.getElementById("event_date");
     if (eventDateInput) {
       eventDateInput.value = upcoming.event_date.toISOString().slice(0, 10);
@@ -68,7 +67,6 @@ async function injectRegisterButton() {
   }
 
   try {
-    // NOW `upcoming` is defined and safe to use
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
