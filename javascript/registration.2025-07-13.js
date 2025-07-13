@@ -45,6 +45,9 @@ async function injectRegisterButton() {
       January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
       July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
     };
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     events.forEach(e => {
       e.event_date = new Date(new Date().getFullYear(), monthMap[e.month], parseInt(e.date));
@@ -52,7 +55,14 @@ async function injectRegisterButton() {
 
     events.sort((a, b) => a.event_date - b.event_date);
 
-    upcoming = events.find(e => e.event_date >= new Date());
+    upcoming = events.find(e => {
+      const eventDate = new Date(e.event_date);
+      eventDate.setHours(0, 0, 0, 0);
+      return eventDate >= today;
+    });
+
+     console.log("Upcoming event:", upcoming);
+
     if (!upcoming) {
       showToast("No upcoming event found. Please try again later.", false);
       console.log("No upcoming event found in events.json");
