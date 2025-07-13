@@ -38,7 +38,6 @@ function hideToast() {
 
 async function injectRegisterButton() {
   let upcoming;
-
   try {
     const events = await fetch("/events.json").then(res => res.json());
     const monthMap = {
@@ -72,12 +71,12 @@ async function injectRegisterButton() {
     const eventDateInput = document.getElementById("event_date");
     if (eventDateInput) {
       eventDateInput.value = upcoming.event_date.toISOString().slice(0, 10);
+      console.log("Event date set to:", eventDateInput.value);
     }
 
   } catch (err) {
     showToast("Failed to determine event date.", false);
     console.error("Event date fetch error:", err);
-    return;
   }
 
   try {
@@ -92,7 +91,10 @@ async function injectRegisterButton() {
     console.log("Today:", today, "Event End Date:", eventEndDate, "isPastEvent:", isPastEvent);
 
     if (isPastEvent) {
+      showToast("Registration is closed. Please check back for future events.", false);
       console.log("Event has passed. Button will not be shown.");
+      const submitBtn = document.querySelector('#registrationForm button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
       return;
     }
 
@@ -120,26 +122,6 @@ async function injectRegisterButton() {
         window.location.href = "/registration-form.html";
       });
     }
-
-    const registerContainer = document.createElement("div");
-    registerContainer.className = "register-container";
-    registerContainer.appendChild(registerBtn);
-
-    // ✅ Fallback: use #events OR fallback to <main> OR <body>
-    let eventsSection = document.getElementById("events");
-
-    if (!eventsSection) {
-      console.warn("#events container not found. Using <main> as fallback.");
-      eventsSection = document.querySelector("main");
-    }
-    if (!eventsSection) {
-      console.warn("<main> not found. Using <body> as last resort.");
-      eventsSection = document.body;
-    }
-
-    console.log("Appending Register Now button to:", eventsSection);
-    eventsSection.appendChild(registerContainer);
-
   } catch (err) {
     console.error("Failed to inject Register Now button:", err);
   }
