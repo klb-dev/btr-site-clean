@@ -111,6 +111,8 @@ async function injectRegisterButton() {
   } catch (err) {
     console.error("Failed to inject Register Now button:", err);
   }
+
+  console.log("Events section found", eventsSection)
 }
 
 
