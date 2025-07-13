@@ -41,7 +41,10 @@ async function injectRegisterButton() {
 
   try {
     const events = await fetch("/events.json").then(res => res.json());
-    const monthMap = { /* ... */ };
+    const monthMap = {
+      January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+      July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
+    };
 
     events.forEach(e => {
       e.event_date = new Date(new Date().getFullYear(), monthMap[e.month], parseInt(e.date));
@@ -52,6 +55,7 @@ async function injectRegisterButton() {
     upcoming = events.find(e => e.event_date >= new Date());
     if (!upcoming) {
       showToast("No upcoming event found. Please try again later.", false);
+      console.log("No upcoming event found in events.json");
       return;
     }
 
@@ -75,9 +79,15 @@ async function injectRegisterButton() {
     eventEndDate.setHours(0, 0, 0, 0);
 
     const isPastEvent = today >= eventEndDate;
-    if (isPastEvent) { console.log("Event has passed."); return; }
+    console.log("Today:", today, "Event End Date:", eventEndDate, "isPastEvent:", isPastEvent);
+
+    if (isPastEvent) {
+      console.log("Event has passed. Button will not be shown.");
+      return;
+    }
 
     const diffDays = Math.ceil((upcoming.event_date - today) / (1000 * 60 * 60 * 24));
+    console.log("diffDays:", diffDays);
 
     const registerBtn = document.createElement("button");
     registerBtn.className = "btn btn-primary";
@@ -105,15 +115,24 @@ async function injectRegisterButton() {
     registerContainer.className = "register-container";
     registerContainer.appendChild(registerBtn);
 
-    const eventsSection = document.getElementById("events");
-    if (eventsSection) eventsSection.appendChild(registerContainer);
+    // ✅ Fallback: use #events OR fallback to <main> OR <body>
+    let eventsSection = document.getElementById("events");
+
+    if (!eventsSection) {
+      console.warn("#events container not found. Using <main> as fallback.");
+      eventsSection = document.querySelector("main");
+    }
+    if (!eventsSection) {
+      console.warn("<main> not found. Using <body> as last resort.");
+      eventsSection = document.body;
+    }
+
+    console.log("Appending Register Now button to:", eventsSection);
+    eventsSection.appendChild(registerContainer);
 
   } catch (err) {
     console.error("Failed to inject Register Now button:", err);
   }
-
-  console.log("Events section found", eventsSection)
 }
-
 
 window.addEventListener("DOMContentLoaded", injectRegisterButton);
