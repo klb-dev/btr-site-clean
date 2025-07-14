@@ -4,7 +4,7 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification,
   onAuthStateChanged,
-} from "../javascript/firebase.js";
+} from ".../javascript/firebase/firebase.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const loginContainer = document.getElementById("login-container");
