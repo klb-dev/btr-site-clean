@@ -39,7 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Wait for auth state before showing anything
   onAuthStateChanged(auth, (user) => {
     if (!user) {
-      document.body.style.display = "block";
+      document.getElementById('loading-screen').style.display = 'none';
+      document.getElementById('login-container').style.display = 'block';
     }
   });
 
@@ -87,11 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Redirecting user...");
     handleLoginRedirect(user);
     showToast("Login successful!", "success");
-
-    setTimeout(() => {
-      console.log("Final redirect triggered.");
-      window.location.href = "/admin/admin.html";
-    }, 1000);
 
   } catch (err) {
     console.error("Login error:", err);
