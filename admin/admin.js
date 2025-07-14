@@ -9,7 +9,10 @@ import {
   onAuthStateChanged,
   getAuth
 } from "../javascript/firebase/firebase.js";
+console.log("Auth is:", auth);
 import { signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+console.log("✅ admin.js loaded!");
 
 let allMessages = [];
 let allDonations = [];
@@ -267,6 +270,7 @@ function initAdminPortal() {
 }
 document.addEventListener("DOMContentLoaded", () => {
   onAuthStateChanged(auth, (user) => {
+     console.log("✅ Auth state:", user);
   if (!user) {
     window.location.href = "/admin/admin-login.html";
     return;
