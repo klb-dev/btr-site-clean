@@ -1,8 +1,15 @@
 [
   {
-    "date": "24",
-    "month": "August",
-    "image": "./images/webp/8-24-flyer.webp",
+    "date": "13",
+    "month": "September",
+    "image": "./images/webp/9-13.webp",
+    "location": "Pleasanton Skatepark",
+    "time": "6:00 PM - 7:30 PM"
+  },
+  {
+    "date": "28",
+    "month": "September",
+    "image": "./images/webp/9-28Flyer.webp",
     "location": "Pleasanton Skatepark",
     "time": "6:00 PM - 7:30 PM"
   }
