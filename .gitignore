@@ -18,3 +18,5 @@ build/
 # others
 .qodo
 node_modules/
+volumes.html
+
