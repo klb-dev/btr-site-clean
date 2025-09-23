@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <option value="Beginner">Beginner</option>
               <option value="Intermediate">Intermediate</option>
               <option value="Advanced">Advanced</option>
+              <option value="Instrustor">Instructor</option>
             </select>
           </label>
       <label>School: <input type="text" name="school" required /></label>
