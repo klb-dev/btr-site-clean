@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registrationForm");
   const message = document.getElementById("formMessage");
 
-    if (!form) {
+  if (!form) {
     console.error("registrationForm not found in DOM");
     return;
-    }
+  }
 
   // Show a temporary toast message
   function showToast(msg, success = true) {
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <option value="Beginner">Beginner</option>
               <option value="Intermediate">Intermediate</option>
               <option value="Advanced">Advanced</option>
-              <option value="Instrustor">Instructor</option>
+              <option value="Teacher">Teacher</option>
             </select>
           </label>
       <label>School: <input type="text" name="school" required /></label>
@@ -80,10 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
         age: entry.querySelector('[name="age"]').value.trim(),
         gender: entry.querySelector('[name="gender"]').value,
         skate_level: entry.querySelector('[name="skate_level"]').value.trim(),
-        school: entry.querySelector('[name="school"]').value.trim()
+        school: entry.querySelector('[name="school"]').value.trim(),
       };
 
-      if (Object.values(child).some(v => !v)) {
+      if (Object.values(child).some((v) => !v)) {
         showToast("Please fill out all child fields.", false);
         return;
       }
@@ -98,9 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Get event date
     const eventDateInput = document.getElementById("event_date");
-      if (!eventDateInput || !eventDateInput.value) {
-        showToast("Event date not found. Please reload the page.", false);
-        return;
+    if (!eventDateInput || !eventDateInput.value) {
+      showToast("Event date not found. Please reload the page.", false);
+      return;
     }
 
     // Build payload
@@ -112,18 +112,21 @@ document.addEventListener("DOMContentLoaded", () => {
       children,
     };
 
-    if (Object.values(payload).some(v => !v)) {
+    if (Object.values(payload).some((v) => !v)) {
       showToast("Please fill out all parent fields.", false);
       return;
     }
 
     // Send to backend
     try {
-      const response = await fetch("https://btr-backend-7f5r.onrender.com/registration", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        "https://btr-backend-7f5r.onrender.com/registration",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const result = await response.json();
       console.log("Server response:", result);
@@ -178,7 +181,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Autofocus the first child name on page load
-  const firstNameInput = document.querySelector('.child-entry input[name="child_name"]');
+  const firstNameInput = document.querySelector(
+    '.child-entry input[name="child_name"]'
+  );
   if (firstNameInput) {
     firstNameInput.focus();
   }
