@@ -140,6 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = form.querySelector('[name="email"]').value.trim();
     const phone = normalizePhone(form.querySelector('[name="phone"]').value);
 
+    // Build children from the form (unchanged logic except school for 18+)
     const children = [];
     document.querySelectorAll(".child-entry").forEach((entry) => {
       const ageVal = entry.querySelector('[name="age"]')?.value?.trim();
@@ -157,8 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       if (!child.child_name) return;
       children.push(child);
-
-      if (age !== null) updateAdultMode(entry, age);
     });
 
     if (children.length === 0) {
@@ -166,66 +165,129 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const requireParent = children.some(
-      (c) => !c.age || parseInt(c.age, 10) < 18
-    );
-
+    // Validation: phone always; parent only if any child < 18
+    const requireParent = children.some((c) => !c.age || parseInt(c.age, 10) < 18);
     if (!phone) {
       showToast("Please provide a phone number.", false);
       return;
     }
-
     if (requireParent && !parent_name) {
       showToast("Please provide parent name for minors.", false);
       return;
     }
 
-    const payload = returning
-      ? {
-          returning: true,
+    const event_date = eventDateInput.value;
+
+    try {
+      let totalCreated = 0;
+      let quickCreated = 0;
+      let fallbackCreated = 0;
+
+      if (returning) {
+        // 1) QUICK: try to reuse prior info by phone + child_name
+        const quickPayload = {
           phone,
-          ...(requireParent ? { parent_name } : {}),
-          ...(email ? { email } : {}),
-          event_date: eventDateInput.value,
+          event_date,
           children: children.map((c) => ({ child_name: c.child_name })),
+        };
+
+        const quickRes = await fetch(
+          "https://btr-backend-7f5r.onrender.com/registration/quick",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(quickPayload),
+          }
+        );
+
+        const quickJson = await quickRes.json();
+        if (!quickRes.ok) {
+          throw new Error(quickJson?.message || "Quick re-register failed.");
         }
-      : {
+
+        quickCreated = Number(quickJson.created_count || 0);
+        const unmatchedNames = (quickJson.unmatched || [])
+          .map((u) => (u.child_name || "").trim())
+          .filter(Boolean);
+
+        // 2) FALLBACK: for only unmatched names, submit full records
+        if (unmatchedNames.length > 0) {
+          const fallbackChildren = children.filter((c) =>
+            unmatchedNames.includes(c.child_name)
+          );
+
+          if (fallbackChildren.length > 0) {
+            const fullPayload = {
+              returning: false, // this is the full path
+              phone,
+              ...(requireParent ? { parent_name } : {}),
+              email,
+              event_date,
+              children: fallbackChildren,
+            };
+
+            const fullRes = await fetch(
+              "https://btr-backend-7f5r.onrender.com/registration",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(fullPayload),
+              }
+            );
+            const fullJson = await fullRes.json();
+            if (!fullRes.ok) {
+              throw new Error(fullJson?.message || "Fallback registration failed.");
+            }
+            // Server returns message like "N child(ren) registered."
+            // Count via payload since we know how many we sent.
+            fallbackCreated = fallbackChildren.length;
+          }
+        }
+
+        totalCreated = quickCreated + fallbackCreated;
+      } else {
+        // Non-returning: send everything through the full path (unchanged)
+        const payload = {
           returning: false,
           phone,
           ...(requireParent ? { parent_name } : {}),
           email,
-          event_date: eventDateInput.value,
+          event_date,
           children,
         };
 
-    try {
-      const response = await fetch(
-        "https://btr-backend-7f5r.onrender.com/registration",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
+        const res = await fetch(
+          "https://btr-backend-7f5r.onrender.com/registration",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }
+        );
+        const json = await res.json();
+        if (!res.ok) throw new Error(json?.message || "Failed to submit");
+        totalCreated = children.length;
+      }
 
-      const result = await response.json();
-      console.log("Server response:", result);
-
-      if (!response.ok) throw new Error("Failed to submit");
-
+      // Success UI (keep your existing reset + message)
       form.reset();
       document.getElementById("childrenContainer").innerHTML = "";
 
-      const count = children.length;
+      const count = totalCreated;
       const childText = count === 1 ? "child" : "children";
-
       message.innerHTML = `
-        <p style="color: var(--primary); font-weight: bold;">Thanks for registering your ${count} ${childText}.</p>
-        <p><strong>Want to stay in the loop?</strong> 
+        <p style="color: var(--primary); font-weight: bold;">
+          Thanks for registering your ${count} ${childText}.
+          ${returning ? `(Reused: ${quickCreated}${
+        fallbackCreated ? `, New: ${fallbackCreated}` : ""
+      })` : ""}
+        </p>
+        <p><strong>Want to stay in the loop?</strong>
         <a href="/#newsletter" style="color: var(--primary);">Click here to join our newsletter.</a></p>
       `;
       message.classList.remove("hidden");
 
+      // Rebuild initial child fieldset (kept same as your original)
       childCount = 1;
       const initialFieldset = document.createElement("fieldset");
       initialFieldset.className = "child-entry";
@@ -253,12 +315,16 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
       document.getElementById("childrenContainer").appendChild(initialFieldset);
 
-      attachAgeListener(initialFieldset);
+      // If you kept the age visual cue helper:
+      if (typeof attachAgeListener === "function") {
+        attachAgeListener(initialFieldset);
+      }
     } catch (err) {
-      showToast("Error submitting form.", false);
+      showToast(err.message || "Error submitting form.", false);
       console.error(err);
     }
   });
+
 
   const firstNameInput = document.querySelector(
     '.child-entry input[name="child_name"]'
