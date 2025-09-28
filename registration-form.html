@@ -11,6 +11,15 @@
   <main class="container">
     <h1>Event Registration</h1>
     <form id="registrationForm">
+      <div>
+        <label class="inline-flex items-center gap-2" style="margin: 0.75rem 0">
+        <input type="checkbox" id="reregisterChk" />
+        Returning family? Quick re-register with child name + phone only
+      </label>
+      <small id="reregisterHint" class="hidden">
+        We’ll reuse your previous details (age, gender, school, level). You can still edit after submit if needed.
+      </small>
+      </div>
       <div id="childrenContainer">
         <fieldset class="child-entry">
           <legend>Child's Information</legend>
