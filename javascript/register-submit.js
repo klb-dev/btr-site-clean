@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const addBtn = document.getElementById("addChildBtn");
   addBtn.addEventListener("click", () => {
     if (childCount >= 4) {
-      showToast("You can only register up to 4 children at once.", false);
+      showToast("You can register up to 4 children at once.", false);
       return;
     }
 
@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (fallbackChildren.length > 0) {
             const fullPayload = {
-              returning: false, // this is the full path
+              returning: false, 
               phone,
               ...(requireParent ? { parent_name } : {}),
               email,

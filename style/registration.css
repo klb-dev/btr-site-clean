@@ -58,14 +58,28 @@
 }
 
 .reregister-block {
-  text-align: center;
-  margin: 1rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem auto 0.2rem auto;
 }
 
-.reregister-block label,
-.reregister-block small {
-  display: block;
-  text-align: center;
-  margin-top: 0.5rem;
+.reregister-block label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0;
+  font-weight: normal;
 }
 
+.reregister-block input[type="checkbox"] {
+  width: auto;
+  margin-top: 0;
+}
+
+.reregister-hint {
+  margin: 0 0 1rem 1.5rem;
+  padding: 0;
+  text-align: center;
+}
