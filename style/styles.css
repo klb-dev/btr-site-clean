@@ -368,6 +368,15 @@ nav ul li a:hover::after {
     fill: #0496FF;
 }
 
+.registration-time {
+    text-align: center;
+    color: var(--light-color);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
 .event-card {
     background-color: var(--light-color);
     border-radius: 10px;
@@ -433,12 +442,6 @@ nav ul li a:hover::after {
     fill: var(--secondary-color)
 }
 
-.gallery {
-    background-color: var(--light-color);
-    color: var(--dark-color);
-    letter-spacing: 3px;
-}
-
 .custom-shape-divider-bottom-1742333600 {
     position: absolute;
     bottom: 0;
@@ -459,50 +462,6 @@ nav ul li a:hover::after {
 
 .custom-shape-divider-bottom-1742333600 .shape-fill {
     fill: #002400;
-}
-
-.gallery-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-}
-
-.gallery-item {
-    position: relative;
-    height: 250px;
-    overflow: hidden;
-    border-radius: 5px;
-    cursor: pointer;
-    color: var(--light-color);
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: all 0.5s ease;
-}
-
-.gallery-item:hover img {
-    transform: scale(1.1);
-}
-
-.gallery-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,.7) 60%);
-    display: flex;
-    align-items: flex-end;
-    padding: 1rem;
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.gallery-item:hover .gallery-overlay {
-    opacity: 1;
 }
 
 /* donation style */
@@ -674,6 +633,131 @@ nav ul li a:hover::after {
 .btn-donate:hover::before {
     transform: translateX(100%);
 }
+
+/* donation + reel grid */
+
+.donate-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 2rem;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.donate-column {
+    min-width: 0;
+}
+
+/* reel panel */
+
+.impact-reel {
+    --reel-h: clamp(260px, 25vw, 420px);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 0.75rem 0 0.75rem 0.5rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.reel-viewport {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    clip-path: inset(0);
+    contain: layout paint;
+    width: clamp(300px, 50vw, 800px);
+    max-width: 100%;
+    height: var(--reel-h, 360px);
+    border-radius: 10px;
+    background: #111111;
+    margin: 0 auto;
+}
+
+.reel-track {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    height: 100%;
+    width: max-content;
+    overflow: hidden;
+    will-change: transform;
+    animation: reel-scroll 45s linear infinite;
+}
+
+.reel-item {
+    flex: 0 0 auto;
+    height: 100%;
+    width: auto;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+    position: relative;
+    margin-right: 1rem;
+    overflow: hidden;
+    max-width: 400px;
+}
+
+.reel-item.is-last {
+    margin-right: 0;
+}
+
+.reel-item img {
+      display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;                   
+    object-fit: cover;
+    filter: saturate(1.05) contrast(1.05);
+}
+
+/* subtle “caption-like” overlay */
+.reel-item::after {
+  content: attr(data-caption);
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: .4rem .6rem;
+  font-weight: 700;
+  font-size: .85rem;
+  color: #fff;
+  background: linear-gradient(to top, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 80%);
+  pointer-events: none;
+}
+
+.reel-caption {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-weight: 700;
+  opacity: 0.85;
+  letter-spacing: 1px;
+}
+
+/* seamless loop: translate exactly 50% because we duplicate the set twice */
+@keyframes reel-scroll {
+    0% { 
+    transform: translateX(0); 
+    }
+    100% { 
+        transform: translateX(-50%); 
+    }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reel-track { animation: none; }
+}
+
+/* Responsive: stack on tablet/phone */
+@media (max-width: 1024px) {
+  .donate-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .reel-viewport { aspect-ratio: 16/9; }
+  .reel-item { width: 80%; }
+}
+
+/* constact */
 
 .contact {
     background-color: var(--accent-color);
@@ -1100,6 +1184,13 @@ footer {
         width: 23em;
         height: 20em;
     }
+    .donate-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    /* .impact-reel {
+        --reel-h: clamp(220px, 40vw, 360px);
+    } */
 }
 
 @media (max-width: 768px) {
@@ -1404,4 +1495,3 @@ footer {
     }
 }
 
-    

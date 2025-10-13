@@ -24,7 +24,7 @@
     <!-- confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
     <!-- Style -->
-    <link rel="stylesheet" href="/style/styles.min.css">
+    <link rel="stylesheet" href="/style/styles.css">
 </head>
 <body class="preload">
     <header class="nav-container">
@@ -40,7 +40,6 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#events">Events</a></li>
-                <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#donate">Donate</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -92,6 +91,7 @@
     <section class="section events" id="events">
         <!-- Register Now button will be injected here dynamically -->
         <h2 class="section-title">Upcoming Events</h2>
+        <p class="registration-time">All registration becomes available 5 days before the event.</p>
         <div class="events-container">
             <div class="event-card">
                 <div class="event-date">
@@ -115,142 +115,94 @@
                 <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
             </svg>
         </div>
-    </section>
-
-    <section class="section gallery" id="gallery">
-        <h2 class="section-title"><span>BTR</span> Gallery</h2>
-        <div class="gallery-container">
-            <div class="gallery-item">
-                <img src="images/webp/skatepark.webp" alt="Skateboarding event" loading="lazy">
-                <div class="gallery-overlay">
-                    <h3>Pleasanton Skatepark</h3>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/webp/groupOnNewStar.webp" alt="Youth skateboarding" loading="lazy">
-                <div class="gallery-overlay">
-                    <h3>Chilling after event</h3>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/webp/groupSittingAtPark.webp" alt="Skateboard art" loading="lazy">
-                <div class="gallery-overlay">
-                    <h3>Fun out of town</h3>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/webp/kidRiding.webp" alt="Skate competition" loading="lazy">
-                <div class="gallery-overlay">
-                    <h3>Enjoying night skating</h3>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/webp/groupOnStar.webp" alt="Skate instruction" loading="lazy">
-                <div class="gallery-overlay">
-                    <h3>Chilling after event</h3>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/webp/prizes.webp" alt="Skateboard mentoring" loading="lazy">
-                <div class="gallery-overlay">
-                    <h3>Prizes for an event</h3>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/webp/havingFun.webp" alt="Skateboard mentoring" loading="lazy">
-                <div class="gallery-overlay">
-                    <h3>Enjoying Skatepark</h3>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/webp/expertSkater.webp" alt="Skateboard mentoring" loading="lazy">
-                <div class="gallery-overlay">
-                    <h3>Zac and Bob</h3>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/webp/kidsAfterEvent.webp" alt="Skateboard mentoring" loading="lazy">
-                <div class="gallery-overlay">
-                    <h3>Enjoy new boards</h3>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="images/webp/youngKids.webp" alt="Skateboard mentoring" loading="lazy">
-                <div class="gallery-overlay">
-                    <h3>Built boards</h3>
-                </div>
-            </div>
-        </div>
         <div class="custom-shape-divider-bottom-1742333600">
             <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
             </svg>
         </div>
     </section>
-
+    
     <section class="section donate" id="donate">
         <h2 class="section-title">Support Skateboarders</h2>
-        <div class="donate-container">
-            <p>Your contribution helps us provide skateboarding programs, equipment, and safe spaces for youth in our community. Every donation makes a difference!</p>
-            <div class="donation-form">
+        <p>Your contribution helps us provide skateboarding programs, equipment, and safe spaces for youth in our community. Every donation makes a difference!</p>
+            <div class="donate-grid">
+                <!-- LEFT: donate content -->
+            <div class="donate-column">
+            <div class="donate-container">
+                <div class="donation-form">
                 <form id="donationForm">
                     <div class="form-row">
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" id="firstName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" id="lastName" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" required>
                     </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" required>
+                    </div>
+                    </div>
+
                     <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone">
-                        </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required>
                     </div>
                     <div class="form-group">
-                        <label>Donation Amount</label>
-                        <div class="donation-amounts">
-                            <div class="amount-option">
-                                <input type="radio" id="amount25" name="amount" value="25">
-                                <label for="amount25">$25</label>
-                            </div>
-                            <div class="amount-option">
-                                <input type="radio" id="amount50" name="amount" value="50">
-                                <label for="amount50">$50</label>
-                            </div>
-                            <div class="amount-option">
-                                <input type="radio" id="amount100" name="amount" value="100" checked>
-                                <label for="amount100">$100</label>
-                            </div>
-                            <div class="amount-option">
-                                <input type="radio" id="amount250" name="amount" value="250">
-                                <label for="amount250">$250</label>
-                            </div>
-                            <div class="custom-amount">
-                                <input type="number" id="customAmount" placeholder="Custom Amount" min="1">
-                            </div>
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    </div>
+
+                    <div class="form-group">
+                    <label>Donation Amount</label>
+                    <div class="donation-amounts">
+                        <div class="amount-option">
+                        <input type="radio" id="amount25" name="amount" value="25">
+                        <label for="amount25">$25</label>
+                        </div>
+                        <div class="amount-option">
+                        <input type="radio" id="amount50" name="amount" value="50">
+                        <label for="amount50">$50</label>
+                        </div>
+                        <div class="amount-option">
+                        <input type="radio" id="amount100" name="amount" value="100" checked>
+                        <label for="amount100">$100</label>
+                        </div>
+                        <div class="amount-option">
+                        <input type="radio" id="amount250" name="amount" value="250">
+                        <label for="amount250">$250</label>
+                        </div>
+                        <div class="custom-amount">
+                        <input type="number" id="customAmount" placeholder="Custom Amount" min="1">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="frequency">Donation Frequency</label>
-                        <select id="frequency">
-                            <option value="onetime">One-Time</option>
-                            <option value="monthly">Monthly</option>
-                            <option value="quarterly">Quarterly</option>
-                            <option value="annually">Annually</option>
-                        </select>
                     </div>
+
+                    <div class="form-group">
+                    <label for="frequency">Donation Frequency</label>
+                    <select id="frequency">
+                        <option value="onetime">One-Time</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="annually">Annually</option>
+                    </select>
+                    </div>
+
                     <button type="submit" class="btn-donate">Donate Now</button>
                 </form>
+                </div>
             </div>
+            </div>
+
+            <!-- RIGHT: the seamless photo reel -->
+            <aside class="impact-reel" aria-label="Event photo reel">
+            <div class="reel-viewport">
+                <div class="reel-track" id="reelTrack" aria-hidden="true"></div>
+            </div>
+            <p class="reel-caption">Moments from recent events</p>
+            </aside>
         </div>
+
         <div class="custom-shape-divider-bottom-1742331555">
             <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                 <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
@@ -368,5 +320,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>  
     <script type="module" src="script.js" defer></script>
     <script type="module" src="javascript/registration.2025-07-13.js"></script>
+    <script type="module" src="javascript\image\images.js" defer></script>
 </body>    
 </html>
