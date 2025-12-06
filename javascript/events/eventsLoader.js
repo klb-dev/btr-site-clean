@@ -12,18 +12,18 @@ export async function loadEvents() {
     container.innerHTML = "";
 
     const monthMap = {
-      January: 0,
-      February: 1,
-      March: 2,
-      April: 3,
-      May: 4,
-      June: 5,
-      July: 6,
-      August: 7,
-      September: 8,
-      October: 9,
-      November: 10,
-      December: 11,
+      january: 0,
+      february: 1,
+      march: 2,
+      april: 3,
+      may: 4,
+      june: 5,
+      july: 6,
+      august: 7,
+      september: 8,
+      october: 9,
+      november: 10,
+      december: 11,
     };
 
     const today = new Date();
@@ -31,11 +31,28 @@ export async function loadEvents() {
 
     events.forEach((event) => {
       // Build a real Date for each event
-      const eventDate = new Date(
-        new Date().getFullYear(),
-        monthMap[event.month],
-        parseInt(event.date, 10)
-      );
+      const monthName = String(event.month || "")
+        .trim()
+        .toLowerCase();
+      const monthIndex = monthMap[monthName];
+      const dayNum = parseInt(event.date, 10);
+      if (typeof monthIndex === "undefined" || Number.isNaN(dayNum)) {
+        console.warn("Skipping event with invalid month/date:", event);
+        return;
+      }
+      // determine year: if the event month/day is earlier than today, assume next year
+      const currentYear = new Date().getFullYear();
+      const todayMonth = today.getMonth();
+      const todayDate = today.getDate();
+      let year = currentYear;
+      if (
+        monthIndex < todayMonth ||
+        (monthIndex === todayMonth && dayNum < todayDate)
+      ) {
+        year = currentYear + 1;
+      }
+
+      const eventDate = new Date(year, monthIndex, dayNum);
       const eventEnd = new Date(eventDate);
       eventEnd.setDate(eventEnd.getDate() + 1);
       eventEnd.setHours(0, 0, 0, 0);
@@ -50,6 +67,8 @@ export async function loadEvents() {
         return `${mm}-${dd}-${yyyy}`;
       }
 
+      console.log({ event, eventDate, isPast, diffDays });
+
       const card = document.createElement("div");
       card.className = "event-card";
 
@@ -62,9 +81,10 @@ export async function loadEvents() {
       } else if (diffDays > 5) {
         btnHtml = `<button class="btn btn-secondary disabled-btn" disabled title="Registration opens 5 days before the event.">Register Now</button>`;
       } else {
-        btnHtml = `<a class="btn btn-primary" href="/registration-form.html?event=${encodeURIComponent(formatted)}">Register Now</a>`;
+        btnHtml = `<a class="btn btn-primary" href="/registration-form.html?event=${encodeURIComponent(
+          formatted
+        )}">Register Now</a>`;
       }
-
 
       card.innerHTML = `
         <div class="event-date">
