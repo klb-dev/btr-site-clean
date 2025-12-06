@@ -67,8 +67,6 @@ export async function loadEvents() {
         return `${mm}-${dd}-${yyyy}`;
       }
 
-      console.log({ event, eventDate, isPast, diffDays });
-
       const card = document.createElement("div");
       card.className = "event-card";
 
