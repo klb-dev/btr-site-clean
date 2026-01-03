@@ -86,16 +86,4 @@ window.addEventListener("DOMContentLoaded", () => {
     if (submitBtn) submitBtn.disabled = true;
     return;
   }
-
-  if (diffDays > 5) {
-    const unlockDate = new Date(eventDate);
-    unlockDate.setDate(eventDate.getDate() - 5);
-    const mm = String(unlockDate.getMonth() + 1).padStart(2, "0");
-    const dd = String(unlockDate.getDate()).padStart(2, "0");
-    const yyyy = unlockDate.getFullYear();
-    showToast(`Registration opens on ${mm}-${dd}-${yyyy}`, "error");
-    if (submitBtn) submitBtn.disabled = true;
-    return;
-  }
-
 });
