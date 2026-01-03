@@ -58,7 +58,6 @@ export async function loadEvents() {
       eventEnd.setHours(0, 0, 0, 0);
 
       const isPast = today >= eventEnd;
-      const diffDays = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
 
       function formatMMDDYYYY(date) {
         const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -76,8 +75,6 @@ export async function loadEvents() {
 
       if (isPast) {
         btnHtml = `<button class="btn btn-secondary disabled-btn" disabled title="Registration closed">Registration Closed</button>`;
-      } else if (diffDays > 5) {
-        btnHtml = `<button class="btn btn-secondary disabled-btn" disabled title="Registration opens 5 days before the event.">Register Now</button>`;
       } else {
         btnHtml = `<a class="btn btn-primary" href="/registration-form.html?event=${encodeURIComponent(
           formatted
