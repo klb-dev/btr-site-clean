@@ -56,20 +56,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Adult mode visual cue ---
   function updateAdultMode(entry, age) {
+    console.log("updateAdultMode called with age:", age);
+
     const schoolField = entry.querySelector('[name="school"]')?.closest("label");
     if (schoolField) {
       if (age >= 18) {
         schoolField.style.opacity = "0.5";
+        schoolField.style.pointerEvents = "none";
         schoolField.querySelector("input").required = false;
+        console.log("School field greyed out");
       } else {
         schoolField.style.opacity = "1";
+        schoolField.style.pointerEvents = "auto";
         schoolField.querySelector("input").required = true;
+        console.log("School field enabled");
       }
     }
 
     const parentField = document.querySelector('[name="parent_name"]')?.closest("label");
     if (parentField) {
-      parentField.style.opacity = age >= 18 ? "0.5" : "1";
+      if (age >= 18) {
+        parentField.style.opacity = "0.5";
+        parentField.style.pointerEvents = "none";
+        console.log("Parent field greyed out");
+      } else {
+        parentField.style.opacity = "1";
+        parentField.style.pointerEvents = "auto";
+        console.log("Parent field enabled");
+      }
+    } else {
+      console.log("Parent field not found");
     }
   }
 
@@ -98,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fieldset.innerHTML = `
       <legend>Child ${childCount}</legend>
       <label>Child's Full Name: <input type="text" name="child_name" required /></label>
-      <label>Age: <input type="number" name="age" min="1" max="18" required /></label>
+      <label>Age: <input type="number" name="age" min="1" required /></label>
       <label>Gender:
         <select name="gender" required>
           <option value="">Select</option>
@@ -202,7 +218,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const quickJson = await quickRes.json();
         if (!quickRes.ok) {
-          throw new Error(quickJson?.message || "Quick re-register failed.");
+          console.error("Quick re-register response:", quickRes.status, quickJson);
+          throw new Error(quickJson?.message || `Quick re-register failed (${quickRes.status}).`);
         }
 
         quickCreated = Number(quickJson.created_count || 0);
@@ -218,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (fallbackChildren.length > 0) {
             const fullPayload = {
-              returning: false, 
+              returning: false,
               phone,
               ...(requireParent ? { parent_name } : {}),
               email,
@@ -236,7 +253,8 @@ document.addEventListener("DOMContentLoaded", () => {
             );
             const fullJson = await fullRes.json();
             if (!fullRes.ok) {
-              throw new Error(fullJson?.message || "Fallback registration failed.");
+              console.error("Fallback registration response:", fullRes.status, fullJson);
+              throw new Error(fullJson?.message || `Fallback registration failed (${fullRes.status}).`);
             }
             // Server returns message like "N child(ren) registered."
             // Count via payload since we know how many we sent.
@@ -265,7 +283,10 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         );
         const json = await res.json();
-        if (!res.ok) throw new Error(json?.message || "Failed to submit");
+        if (!res.ok) {
+          console.error("Registration response:", res.status, json);
+          throw new Error(json?.message || `Failed to submit (${res.status}).`);
+        }
         totalCreated = children.length;
       }
 
@@ -294,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
       initialFieldset.innerHTML = `
         <legend>Child 1</legend>
         <label>Child's Full Name: <input type="text" name="child_name" required /></label>
-        <label>Age: <input type="number" name="age" min="1" max="18" required /></label>
+        <label>Age: <input type="number" name="age" min="1" required /></label>
         <label>Gender:
           <select name="gender" required>
             <option value="">Select</option>
@@ -320,8 +341,14 @@ document.addEventListener("DOMContentLoaded", () => {
         attachAgeListener(initialFieldset);
       }
     } catch (err) {
-      showToast(err.message || "Error submitting form.", false);
-      console.error(err);
+      const errorMsg = err.message || "Error submitting form. Please check the console for details.";
+      showToast(errorMsg, false);
+      console.error("Form submission error:", err);
+      console.error("Error details:", {
+        message: err.message,
+        stack: err.stack,
+        name: err.name
+      });
     }
   });
 
