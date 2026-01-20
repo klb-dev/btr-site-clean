@@ -73,17 +73,36 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   const diffDays = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
-  const afterEvent =
-    today >=
-    new Date(
-      eventDate.getFullYear(),
-      eventDate.getMonth(),
-      eventDate.getDate() + 1
-    );
 
-  if (afterEvent) {
+  // Cutoff: one hour after the event day ends
+  // Previously registration closed at start of next day; now extend by 1 hour (1:00 AM next day)
+  const cutoff = new Date(
+    eventDate.getFullYear(),
+    eventDate.getMonth(),
+    eventDate.getDate() + 1,
+    1, // 1 AM
+    0,
+    0,
+    0
+  );
+
+  const now = new Date();
+  const closed = now >= cutoff;
+
+  if (closed) {
     showToast("Registration is closed for this event.", "error");
-    if (submitBtn) submitBtn.disabled = true;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.classList.add("btn-disabled");
+      submitBtn.title = "Registration closed";
+    }
     return;
+  }
+
+  // If still open, ensure enabled state
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.classList.remove("btn-disabled");
+    submitBtn.removeAttribute("title");
   }
 });
